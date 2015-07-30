@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1" client="site" method="upgrade">
+	<name>Lyquix Banners</name>
+	<author>Lyquix</author>
+	<creationDate>01/20/2013</creationDate>
+	<copyright>(c) Lyquix</copyright>
+	<license></license>
+	<authorEmail>info@lyquix.com</authorEmail>
+	<authorUrl>http://www.lyquix.com</authorUrl>
+	<version>1.0</version>
+	<description>Generates sliding banners using FlexiContent items</description>
+	<files>
+		<filename>mod_lyquix_banners.xml</filename>
+		<filename module="mod_lyquix_banners">mod_lyquix_banners.php</filename>
+		<filename>index.html</filename>
+		<filename>helper.php</filename>
+		<folder>tmpl</folder>
+		<folder>elements</folder>
+		<folder>assets</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_lyquix_banners.ini</language>
+	</languages>
+	<config>
+		<fields name="params" addfieldpath="/modules/mod_lyquix_banners/elements">
+			<fieldset name="basic">
+				<field name="" type="separator" default="MOD_LYQUIX_BANNERS_SCOPE" level="level1" menu="hide" />
+				<field name="catid" type="flexicategories" label="MOD_LYQUIX_BANNERS_CATEGORY" description="MOD_LYQUIX_BANNERS_CATEGORY_DESC" />
+				<field name="typeid" type="types" label="MOD_LYQUIX_BANNERS_TYPES" description="MOD_LYQUIX_BANNERS_TYPES_DESC" />
+				<field name="count" type="text" default="5" size="3" label="MOD_LYQUIX_BANNERS_COUNT" description="MOD_LYQUIX_BANNERS_COUNT_DESC" />
+				<field name="ordering" type="list" default="fcir.ordering ASC" label="MOD_LYQUIX_BANNERS_ORDERING" description="MOD_LYQUIX_BANNERS_ORDERING_DESC">
+					<option value="fcir.ordering ASC">MOD_LYQUIX_ORDERING_ORDER_ASC</option>
+					<option value="fcir.ordering DESC">MOD_LYQUIX_ORDERING_ORDER_DESC</option>
+					<option value="c.title ASC">MOD_LYQUIX_ORDERING_TITLE_ASC</option>
+					<option value="c.title DESC">MOD_LYQUIX_ORDERING_TITLE_DESC</option>
+					<option value="c.created ASC">MOD_LYQUIX_ORDERING_DATE_ASC</option>
+					<option value="c.created DESC">MOD_LYQUIX_ORDERING_DATE_DESC</option>
+					<option value="RAND()">MOD_LYQUIX_ORDERING_RANDOM</option>
+				</field>
+				<field name="lang_scope" type="radio" default="1" label="MOD_LYQUIX_BANNERS_CURLANG_SCOPE" description="MOD_LYQUIX_BANNERS_CURLANG_DESC">
+					<option value="0">MOD_LYQUIX_BANNERS_ALL</option>
+					<option value="1">MOD_LYQUIX_BANNERS_CURRENT_ONLY</option>
+				</field>
+			</fieldset>
+			<fieldset name="MOD_LYQUIX_BANNERS_DISPLAY_PARAMS" label="MOD_LYQUIX_BANNERS_DISPLAY_PARAMS">
+				<field name="" type="separator" default="MOD_LYQUIX_BANNERS_IMAGE_PARAMS" level="level1" menu="hide" />
+				<field name="image_display" type="radio" default="1" label="MOD_LYQUIX_BANNERS_IMAGE_DISPLAY" description="MOD_LYQUIX_BANNERS_IMAGE_DISPLAY_DESC">
+					<option value="0">MOD_LYQUIX_BANNERS_NO</option>
+					<option value="1">MOD_LYQUIX_BANNERS_YES</option>
+				</field>
+				<field name="image_field" type="fcimage" valcolumn="name" default="" label="MOD_LYQUIX_BANNERS_IMAGE_SOURCE" description="MOD_LYQUIX_BANNERS_IMAGE_SOURCE_DESC" />
+				<field name="image_size" type="radio" default="s" label="MOD_LYQUIX_BANNERS_IMAGE_SIZE" description="MOD_LYQUIX_BANNERS_IMAGE_SIZE_DESC">
+					<option value="s">MOD_LYQUIX_BANNERS_SMALL</option>
+					<option value="m">MOD_LYQUIX_BANNERS_MEDIUM</option>
+					<option value="l">MOD_LYQUIX_BANNERS_LARGE</option>
+					<option value="custom">MOD_LYQUIX_BANNERS_CUSTOM</option>
+				</field>
+				<field name="image_resize" type="radio" default="1" label="MOD_LYQUIX_BANNERS_IMAGE_PROCESSING_METHOD" description="MOD_LYQUIX_BANNERS_IMAGE_PROCESSING_METHOD_DESC">
+					<option value="0">MOD_LYQUIX_BANNERS_IMAGE_SCALE</option>
+					<option value="1">MOD_LYQUIX_BANNERS_IMAGE_CROP</option>
+				</field>
+				<field name="image_width" type="text" size="4" default="960" label="MOD_LYQUIX_BANNERS_IMAGE_WIDTH" description="MOD_LYQUIX_BANNERS_IMAGE_WIDTH" />
+				<field name="image_height" type="text" size="4" default="540" label="MOD_LYQUIX_BANNERS_IMAGE_HEIGHT" description="MOD_LYQUIX_BANNERS_IMAGE_HEIGHT" />
+				<field name="link_display" type="radio" default="1" label="MOD_LYQUIX_BANNERS_LINK_DISPLAY" description="MOD_LYQUIX_BANNERS_LINK_DISPLAY_DESC">
+					<option value="0">MOD_LYQUIX_BANNERS_NO</option>
+					<option value="1">MOD_LYQUIX_BANNERS_YES</option>
+				</field>
+				<field name="link_url" type="radio" default="1" label="MOD_LYQUIX_BANNERS_LINK_URL" description="MOD_LYQUIX_BANNERS_LINK_URL_DESC">
+					<option value="item">MOD_LYQUIX_BANNERS_LINK_ITEM</option>
+					<option value="custom">MOD_LYQUIX_BANNERS_LINK_CUSTOM</option>
+				</field>
+				<field name="link_field" type="fields" field_type="text" fieldnameasvalue="name" label="MOD_LYQUIX_BANNERS_LINK_FIELD" description="MOD_LYQUIX_BANNERS_LINK_FIELD" />
+
+				<field name="" type="separator" default="MOD_LYQUIX_BANNERS_TEXT_PARAMS" level="level1" menu="hide" />
+				<field name="title_display" type="radio" default="1" label="MOD_LYQUIX_BANNERS_DISPLAY_TITLE" description="MOD_LYQUIX_BANNERS_DISPLAY_TITLE_DESC">
+					<option value="0">MOD_LYQUIX_BANNERS_NO</option>
+					<option value="1">MOD_LYQUIX_BANNERS_YES</option>
+				</field>
+				<field name="title_heading_level" type="list" default="3" label="MOD_LYQUIX_BANNERS_TITLE_HEADING" description="MOD_LYQUIX_BANNERS_TITLE_HEADING_DESC">
+					<option value="1">H1</option>
+					<option value="2">H2</option>
+					<option value="3">H3</option>
+					<option value="4">H4</option>
+					<option value="5">H5</option>
+					<option value="6">H6</option>
+				</field>
+				<field name="title_field" type="fields" default="" field_type="text,textarea" fieldnameasvalue="name" label="MOD_LYQUIX_BANNERS_TITLE_FIELD" description="MOD_LYQUIX_BANNERS_TITLE_FIELD_DESC" />
+				<field name="description_display" type="radio" default="1" label="MOD_LYQUIX_BANNERS_DISPLAY_DESCRIPTION" description="MOD_LYQUIX_BANNERS_DISPLAY_DESCRIPTION_DESC">
+					<option value="0">MOD_LYQUIX_BANNERS_NO</option>
+					<option value="1">MOD_LYQUIX_BANNERS_YES</option>
+				</field>
+				<field name="description_field" type="fields" default="" field_type="text,textarea" fieldnameasvalue="name" label="MOD_LYQUIX_BANNERS_DESCRIPTION_FIELD" description="MOD_LYQUIX_BANNERS_DESCRIPTION_FIELD_DESC" />
+				<field name="description_striptags" type="radio" default="0" label="MOD_LYQUIX_BANNERS_DESCRIPTION_STRIPTAGS" description="MOD_LYQUIX_BANNERS_DESCRIPTION_STRIPTAGS_DESC">
+					<option value="0">MOD_LYQUIX_BANNERS_NO</option>
+					<option value="1">MOD_LYQUIX_BANNERS_YES</option>
+				</field>
+				<field name="readmore_display" type="radio" default="1" label="MOD_LYQUIX_BANNERS_DISPLAY_READMORE" description="MOD_LYQUIX_BANNERS_DISPLAY_READMORE_DESC">
+					<option value="0">MOD_LYQUIX_BANNERS_NO</option>
+					<option value="1">MOD_LYQUIX_BANNERS_YES</option>
+				</field>
+				<field name="readmore_url" type="radio" default="item" label="MOD_LYQUIX_BANNERS_READMORE_URL" description="MOD_LYQUIX_BANNERS_READMORE_URL_DESC">
+					<option value="item">MOD_LYQUIX_BANNERS_READMORE_ITEM</option>
+					<option value="custom">MOD_LYQUIX_BANNERS_READMORE_CUSTOM</option>
+				</field>
+				<field name="readmore_field" type="fields" field_type="text" fieldnameasvalue="name" label="MOD_LYQUIX_BANNERS_READMORE_FIELD" description="MOD_LYQUIX_BANNERS_READMORE_FIELD" />
+				<field name="readmore_label" type="text" size="30" default="Read more" label="MOD_LYQUIX_BANNERS_READMORE_LABEL" description="MOD_LYQUIX_BANNERS_READMORE_LABEL_DESC" />
+				<field name="readmore_css" type="text" size="30" default="readmore" label="MOD_LYQUIX_BANNERS_READMORE_CSS" description="MOD_LYQUIX_BANNERS_READMORE_CSS_DESC" />
+				
+				<field name="" type="separator" default="MOD_LYQUIX_CAPTIONS_TITLE" level="level1" menu="hide" />
+				<field name="caption_display" type="radio" default="0" label="MOD_LYQUIX_BANNERS_DISPLAY_CAPTION" description="MOD_LYQUIX_BANNERS_DISPLAY_CAPTION_DESC">
+					<option value="0">MOD_LYQUIX_BANNERS_NO</option>
+					<option value="1">MOD_LYQUIX_BANNERS_YES</option>
+				</field>
+				<field name="caption_field" type="fields" default="" field_type="textarea" fieldnameasvalue="name" label="MOD_LYQUIX_BANNERS_CAPTION_FIELD" description="MOD_LYQUIX_BANNERS_CAPTION_FIELD_DESC" />
+				
+				<field name="" type="separator" default="MOD_LYQUIX_BANNERS_THUMB" level="level1" menu="hide" />
+				<field name="thumb_display" type="radio" default="0" label="MOD_LYQUIX_BANNERS_THUMB_DISPLAY" description="MOD_LYQUIX_BANNERS_THUMB_DISPLAY_DESC">
+					<option value="0">MOD_LYQUIX_BANNERS_NO</option>
+					<option value="1">MOD_LYQUIX_BANNERS_YES</option>
+				</field>
+				<field name="thumb_field" type="fcimage" valcolumn="name" default="" label="MOD_LYQUIX_BANNERS_THUMB_SOURCE" description="MOD_LYQUIX_BANNERS_THUMB_SOURCE_DESC" />
+				<field name="thumb_size" type="radio" default="s" label="MOD_LYQUIX_BANNERS_THUMB_SIZE" description="MOD_LYQUIX_BANNERS_THUMB_SIZE_DESC">
+					<option value="s">MOD_LYQUIX_BANNERS_SMALL</option>
+					<option value="m">MOD_LYQUIX_BANNERS_MEDIUM</option>
+					<option value="l">MOD_LYQUIX_BANNERS_LARGE</option>
+					<option value="custom">MOD_LYQUIX_BANNERS_CUSTOM</option>
+				</field>
+				<field name="thumb_resize" type="radio" default="1" label="MOD_LYQUIX_BANNERS_THUMB_PROCESSING_METHOD" description="MOD_LYQUIX_BANNERS_THUMB_PROCESSING_METHOD_DESC">
+					<option value="0">MOD_LYQUIX_BANNERS_IMAGE_SCALE</option>
+					<option value="1">MOD_LYQUIX_BANNERS_IMAGE_CROP</option>
+				</field>
+				<field name="thumb_width" type="text" size="4" default="160" label="MOD_LYQUIX_BANNERS_THUMB_WIDTH" description="MOD_LYQUIX_BANNERS_THUMB_WIDTH" />
+				<field name="thumb_height" type="text" size="4" default="90" label="MOD_LYQUIX_BANNERS_THUMB_HEIGHT" description="MOD_LYQUIX_BANNERS_THUMB_HEIGHT" />
+				<field name="thumb_title_display" type="radio" default="0" label="MOD_LYQUIX_BANNERS_THUMB_DISPLAY_TITLE" description="MOD_LYQUIX_BANNERS_THUMB_DISPLAY_TITLE_DESC">
+					<option value="0">MOD_LYQUIX_BANNERS_NO</option>
+					<option value="1">MOD_LYQUIX_BANNERS_YES</option>
+				</field>
+				<field name="thumb_title_field" type="fields" default="" field_type="text,textarea" fieldnameasvalue="name" label="MOD_LYQUIX_THUMB_TITLE_FIELD" description="MOD_LYQUIX_THUMB_TITLE_FIELD_DESC" />
+				
+				<field name="" type="separator" default="MOD_LYQUIX_BANNERS_TIMING" level="level1" menu="hide" />
+				<field name="delay_time" type="text" default="15" label="MOD_LYQUIX_BANNERS_DELAY" description="MOD_LYQUIX_BANNERS_DELAY_DESC" />
+				<field name="fade_time" type="text" default="400" label="MOD_LYQUIX_BANNERS_FADE" description="MOD_LYQUIX_BANNERS_FADE_DESC" />
+				
+				<field name="" type="separator" default="MOD_LYQUIX_BANNERS_MODULE_STYLING" level="level1" menu="hide" />
+				<field name="style_field" type="fields" field_type="text,select,radio" fieldnameasvalue="name" label="MOD_LYQUIX_BANNERS_STYLE_FIELD" description="MOD_LYQUIX_BANNERS_STYLE_FIELD" />
+				
+			</fieldset>
+			<fieldset name="advanced" >
+				<field name="" type="separator" default="MOD_LYQUIX_BANNERS_MODULE_STYLING" level="level1" menu="hide" />
+				<field name="load_js" type="radio" default="1" label="MOD_LYQUIX_BANNERS_LOAD_JS" description="MOD_LYQUIX_BANNERS_LOAD_JS_DESC">
+					<option value="0">MOD_LYQUIX_BANNERS_NO</option>
+					<option value="1">MOD_LYQUIX_BANNERS_YES</option>
+				</field>
+				<field name="moduleclass_sfx" type="text" default="" label="MOD_LYQUIX_BANNERS_MODULE_CLASS_SUFFIX" description="MOD_LYQUIX_BANNERS_MODULE_CLASS_SUFFIX_DESC" />
+				<field name="banner_class" type="text" default="banner" label="MOD_LYQUIX_BANNERS_BANNER_CLASS" description="MOD_LYQUIX_BANNERS_BANNER_CLASS_DESC" />
+				<field name="tab_class" type="text" default="tab" label="MOD_LYQUIX_BANNERS_TAB_CLASS" description="MOD_LYQUIX_BANNERS_TAB_CLASS_DESC" />
+				<field name="modpretxt" type="text" default="" label="MOD_LYQUIX_BANNERS_MODPRETXT" description="MOD_LYQUIX_BANNERS_MODPRETXT_DESC" filter="raw" />
+				<field name="modpostxt" type="text" default="" label="MOD_LYQUIX_BANNERS_MODPOSTXT" description="MOD_LYQUIX_BANNERS_MODPOSTXT_DESC" filter="raw" />
+				<field name="itempretxt" type="text" default="" label="MOD_LYQUIX_BANNERS_ITEMPRETXT" description="MOD_LYQUIX_BANNERS_ITEMPRETXT_DESC" filter="raw" />
+				<field name="itempostxt" type="text" default="" label="MOD_LYQUIX_BANNERS_ITEMPOSTXT" description="MOD_LYQUIX_BANNERS_ITEMPOSTXT_DESC" filter="raw" />
+				<field name="" type="separator" default="MOD_LYQUIX_BANNERS_CACHING" level="level1" menu="hide" />
+				<field name="cache" type="list" default="1" label="MOD_LYQUIX_BANNERS_CACHING" description="MOD_LYQUIX_BANNERS_CACHING_DESC">
+					<option value="1">MOD_LYQUIX_BANNERS_USE_GLOBAL</option>
+					<option value="2">MOD_LYQUIX_BANNERS_YES</option>
+					<option value="0">MOD_LYQUIX_BANNERS_NO</option>
+				</field>
+				<field name="cache_time" type="text" default="900" label="MOD_LYQUIX_BANNERS_CACHE_TIME" description="MOD_LYQUIX_BANNERS_CACHE_TIME_DESC" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>
