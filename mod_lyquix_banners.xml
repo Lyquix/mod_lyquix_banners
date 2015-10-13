@@ -25,8 +25,8 @@
 		<fields name="params" addfieldpath="modules/mod_lyquix_banners/elements">
 			<fieldset name="basic">
 				<field name="" type="separator" default="MOD_LYQUIX_BANNERS_SCOPE" level="level1" menu="hide" />
-				<field name="catid" type="flexicategories" multiple="multiple" label="MOD_LYQUIX_BANNERS_CATEGORY" description="MOD_LYQUIX_BANNERS_CATEGORY_DESC" />
-				<field name="typeid" type="types" multiple="multiple" label="MOD_LYQUIX_BANNERS_TYPES" description="MOD_LYQUIX_BANNERS_TYPES_DESC" />
+				<field name="catid" type="flexicategories" label="MOD_LYQUIX_BANNERS_CATEGORY" description="MOD_LYQUIX_BANNERS_CATEGORY_DESC" />
+				<field name="typeid" type="types" label="MOD_LYQUIX_BANNERS_TYPES" description="MOD_LYQUIX_BANNERS_TYPES_DESC" />
 				<field name="count" type="text" default="5" size="3" label="MOD_LYQUIX_BANNERS_COUNT" description="MOD_LYQUIX_BANNERS_COUNT_DESC" />
 				<field name="ordering" type="list" default="fcir.ordering ASC" label="MOD_LYQUIX_BANNERS_ORDERING" description="MOD_LYQUIX_BANNERS_ORDERING_DESC">
 					<option value="fcir.ordering ASC">MOD_LYQUIX_ORDERING_ORDER_ASC</option>
