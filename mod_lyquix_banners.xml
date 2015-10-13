@@ -2,13 +2,13 @@
 <extension type="module" version="3.1" client="site" method="upgrade">
 	<name>Lyquix Banners</name>
 	<author>Lyquix</author>
-	<creationDate>01/20/2013</creationDate>
+	<creationDate>13 Oct 2015</creationDate>
 	<copyright>(c) Lyquix</copyright>
 	<license></license>
 	<authorEmail>info@lyquix.com</authorEmail>
 	<authorUrl>http://www.lyquix.com</authorUrl>
-	<version>1.0</version>
-	<description>Generates sliding banners using FlexiContent items</description>
+	<version>1.0.1</version>
+	<description>Generates sliding banners using FLEXIcontent items</description>
 	<files>
 		<filename>mod_lyquix_banners.xml</filename>
 		<filename module="mod_lyquix_banners">mod_lyquix_banners.php</filename>
@@ -22,11 +22,11 @@
 		<language tag="en-GB">en-GB.mod_lyquix_banners.ini</language>
 	</languages>
 	<config>
-		<fields name="params" addfieldpath="/modules/mod_lyquix_banners/elements">
+		<fields name="params" addfieldpath="modules/mod_lyquix_banners/elements">
 			<fieldset name="basic">
 				<field name="" type="separator" default="MOD_LYQUIX_BANNERS_SCOPE" level="level1" menu="hide" />
-				<field name="catid" type="flexicategories" label="MOD_LYQUIX_BANNERS_CATEGORY" description="MOD_LYQUIX_BANNERS_CATEGORY_DESC" />
-				<field name="typeid" type="types" label="MOD_LYQUIX_BANNERS_TYPES" description="MOD_LYQUIX_BANNERS_TYPES_DESC" />
+				<field name="catid" type="flexicategories" multiple="multiple" label="MOD_LYQUIX_BANNERS_CATEGORY" description="MOD_LYQUIX_BANNERS_CATEGORY_DESC" />
+				<field name="typeid" type="types" multiple="multiple" label="MOD_LYQUIX_BANNERS_TYPES" description="MOD_LYQUIX_BANNERS_TYPES_DESC" />
 				<field name="count" type="text" default="5" size="3" label="MOD_LYQUIX_BANNERS_COUNT" description="MOD_LYQUIX_BANNERS_COUNT_DESC" />
 				<field name="ordering" type="list" default="fcir.ordering ASC" label="MOD_LYQUIX_BANNERS_ORDERING" description="MOD_LYQUIX_BANNERS_ORDERING_DESC">
 					<option value="fcir.ordering ASC">MOD_LYQUIX_ORDERING_ORDER_ASC</option>
@@ -152,8 +152,16 @@
 					<option value="1">MOD_LYQUIX_BANNERS_YES</option>
 				</field>
 				<field name="moduleclass_sfx" type="text" default="" label="MOD_LYQUIX_BANNERS_MODULE_CLASS_SUFFIX" description="MOD_LYQUIX_BANNERS_MODULE_CLASS_SUFFIX_DESC" />
-				<field name="banner_class" type="text" default="banner" label="MOD_LYQUIX_BANNERS_BANNER_CLASS" description="MOD_LYQUIX_BANNERS_BANNER_CLASS_DESC" />
-				<field name="tab_class" type="text" default="tab" label="MOD_LYQUIX_BANNERS_TAB_CLASS" description="MOD_LYQUIX_BANNERS_TAB_CLASS_DESC" />
+				<field name="banner_class" type="text" default="" label="MOD_LYQUIX_BANNERS_BANNER_CLASS" description="MOD_LYQUIX_BANNERS_BANNER_CLASS_DESC" />
+				<field name="tab_class" type="text" default="" label="MOD_LYQUIX_BANNERS_TAB_CLASS" description="MOD_LYQUIX_BANNERS_TAB_CLASS_DESC" />
+				<field name="image_class" type="text" default="" label="MOD_LYQUIX_BANNERS_IMAGE_CLASS" description="MOD_LYQUIX_BANNERS_IMAGE_CLASS_DESC" />
+				<field name="text_class" type="text" default="" label="MOD_LYQUIX_BANNERS_TEXT_CLASS" description="MOD_LYQUIX_BANNERS_TEXT_CLASS_DESC" />
+				<field name="caption_class" type="text" default="" label="MOD_LYQUIX_BANNERS_CAPTION_CLASS" description="MOD_LYQUIX_BANNERS_CAPTION_CLASS_DESC" />
+				<field name="thumb_class" type="text" default="" label="MOD_LYQUIX_BANNERS_THUMB_CLASS" description="MOD_LYQUIX_BANNERS_THUMB_CLASS_DESC" />
+				<field name="arrow_prev_class" type="text" default="" label="MOD_LYQUIX_BANNERS_ARROW_PREV_CLASS" description="MOD_LYQUIX_BANNERS_ARROW_PREV_CLASS_DESC" />
+				<field name="arrow_next_class" type="text" default="" label="MOD_LYQUIX_BANNERS_ARROW_NEXT_CLASS" description="MOD_LYQUIX_BANNERS_ARROW_NEXT_CLASS_DESC" />
+				<field name="counter_current_class" type="text" default="" label="MOD_LYQUIX_BANNERS_COUNTER_CURRENT_CLASS" description="MOD_LYQUIX_BANNERS_COUNTER_CURRENT_CLASS_DESC" />
+				<field name="counter_total_class" type="text" default="" label="MOD_LYQUIX_BANNERS_COUNTER_TOTAL_CLASS" description="MOD_LYQUIX_BANNERS_COUNTER_TOTAL_CLASS_DESC" />
 				<field name="modpretxt" type="text" default="" label="MOD_LYQUIX_BANNERS_MODPRETXT" description="MOD_LYQUIX_BANNERS_MODPRETXT_DESC" filter="raw" />
 				<field name="modpostxt" type="text" default="" label="MOD_LYQUIX_BANNERS_MODPOSTXT" description="MOD_LYQUIX_BANNERS_MODPOSTXT_DESC" filter="raw" />
 				<field name="itempretxt" type="text" default="" label="MOD_LYQUIX_BANNERS_ITEMPRETXT" description="MOD_LYQUIX_BANNERS_ITEMPRETXT_DESC" filter="raw" />

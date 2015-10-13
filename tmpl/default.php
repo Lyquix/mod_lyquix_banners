@@ -24,7 +24,7 @@ if (count($banners)) {
             $item
         );
         FlexicontentFields::getFields($items);
-        echo '<div class="' . $params->get('banner_class', 'banner');
+        echo '<div class="banner ' . $params->get('banner_class', '');
         if ($params->get('style_field') != '') {
             FlexicontentFields::getFieldDisplay($item, $params->get('style_field'));
             if (array_key_exists($params->get('style_field'), $item->fields)) {
@@ -61,7 +61,7 @@ if (count($banners)) {
                     $image_src   = JURI::base() . 'images/stories/flexicontent/' . $params->get('image_size', 's') . '_' . $image_field['originalname'];
                     $item_image  = '<img src="' . $image_src . '" alt="' . $image_field['alt'] . '" title="' . $image_field['alt'] . '" />';
                 }
-                echo '<div class="image">';
+                echo '<div class="image ' . $params->get('image_class') . '">';
                 // Link
                 if ($params->get('link_display', 1)) {
                     if ($params->get('link_url') == 'custom' && $params->get('link_field') != '') {
@@ -82,7 +82,7 @@ if (count($banners)) {
             }
         }
         if ($params->get('title_display', 1) || $params->get('description_display', 1)) {
-            echo '<div class="text">';
+            echo '<div class="text ' . $params->get('text_class') . '">';
             // Title
             if ($params->get('title_display', 1)) {
                 $item_title = $item->title;
@@ -134,13 +134,13 @@ if (count($banners)) {
                 FlexicontentFields::getFieldDisplay($item, $params->get('caption_field'), $values = null, $method = 'display');
                 $item_caption = $item->fields[$params->get('caption_field')]->display;
                 if ($item_caption != '')
-                    echo '<div class="caption">' . $item_caption . '</div>';
+                    echo '<div class="caption ' . $params->get('caption_class') . '">' . $item_caption . '</div>';
             }
         }
         echo $params->get('itempostxt');
         echo '</div>';
         // Tab
-        $tabs_html .= '<div class="' . $params->get('tab_class', 'tab') . ($count == 1 ? ' on' : '') . '" data-num="' . $count . '" data-total="' . count($banners) . '">';
+        $tabs_html .= '<div class="tab ' . $params->get('tab_class', '') . ($count == 1 ? ' on' : '') . '" data-num="' . $count . '" data-total="' . count($banners) . '">';
         // Tab thumbnail title
         if ($params->get('thumb_title_display', 0)) {
             $item_title = $item->title;
@@ -177,34 +177,33 @@ if (count($banners)) {
                     $image_src   = JURI::base() . 'images/stories/flexicontent/' . $params->get('thumb_size', 's') . '_' . $image_field['originalname'];
                     $item_image  = '<img src="' . $image_src . '" alt="' . $image_field['alt'] . '" title="' . $image_field['alt'] . '" />';
                 }
-                $tabs_html .= $item_image;
-                $tabs_html .= '</div>';
+                $tabs_html .= '<div class="thumb ' . $params->get('thumb_class') . '">' . $item_image . '</div>';
             }
         }
         $tabs_html .= '</div>';
         $count++;
     }
     echo '</div>';
-    echo '<div class="arrows"><div class="prev"></div><div class="next"></div></div>';
+    echo '<div class="arrows"><div class="prev ' . $params->get('arrow_prev_class') . '"></div><div class="next ' . $params->get('arrow_next_class') . '"></div></div>';
     if ($params->get('thumb_display', 0)) {
         echo '<div class="tabs" data-num="1" data-total="' . count($banners) . '">' . $tabs_html . '</div>';
     }
-	echo '<div class="counter"><span class="current">1</span> of <span class="total">' . count($banners) . '</span></div>';
+	echo '<div class="counter"><span class="current ' . $params->get('counter_current_class') . '">1</span> of <span class="total ' . $params->get('counter_total_class') . '">' . count($banners) . '</span></div>';
     
 ?>
-<script>
-var myBanner<?php echo $module->id; ?> = new jQuery('div.banner<?php echo $module->id; ?>').Banner({
-	delay:<?php echo $params->get('delay_time', 5) * 1000; ?>,
-	banner: '.<?php echo str_replace(' ', '.', $params->get('banner_class', 'banner')); ?>',
-	tab: '.<?php echo $params->get('tab_class', 'tab'); ?>',
-	speed:<?php echo $params->get('fade_time', 400); ?>
-});
-</script>
+<script>var myBanner<?php echo $module -> id; ?> = new jQuery('div.banner<?php echo $module -> id; ?>
+	').Banner({
+	delay: 
+ <?php echo $params -> get('delay_time', 5) * 1000; ?>
+	, banner: '.banner',
+	tab: '.tab',
+	speed: 
+ <?php echo $params -> get('fade_time', 400); ?>});</script>
 <?php
-    echo $params->get('modpostxt');
-    echo '</div>';
-    if ($params->get('load_js', 1)) {
-        $document = JFactory::getDocument();
-        $document->addScript(JURI::root() . 'modules/mod_lyquix_banners/assets/banner.js');
-    }
+echo $params -> get('modpostxt');
+echo '</div>';
+if ($params -> get('load_js', 1)) {
+	$document = JFactory::getDocument();
+	$document -> addScript(JURI::root() . 'modules/mod_lyquix_banners/assets/banner.js');
+}
 }
