@@ -141,18 +141,6 @@ if (count($banners)) {
         echo '</div>';
         // Tab
         $tabs_html .= '<div class="tab ' . $params->get('tab_class', '') . ($count == 1 ? ' on' : '') . '" data-num="' . $count . '" data-total="' . count($banners) . '">';
-        // Tab thumbnail title
-        if ($params->get('thumb_title_display', 0)) {
-            $item_title = $item->title;
-            if ($params->get('thumb_title_field', '') != '0') {
-                FlexicontentFields::getFieldDisplay($item, $params->get('thumb_title_field'));
-                if ($item->fields[$params->get('thumb_title_field')]) {
-                    FlexicontentFields::getFieldDisplay($item, $params->get('thumb_title_field'), $values = null, $method = 'display');
-                    $item_title = $item->fields[$params->get('thumb_title_field')]->display;
-                }
-            }
-            $tabs_html .= '<span>' . $item_title . '</span>';
-        }
         // Tab thumnail image
         if ($params->get('thumb_display', 0) && $params->get('thumb_field') != '') {
             FlexicontentFields::getFieldDisplay($item, $params->get('thumb_field'));
@@ -180,30 +168,37 @@ if (count($banners)) {
                 $tabs_html .= '<div class="thumb ' . $params->get('thumb_class') . '">' . $item_image . '</div>';
             }
         }
+        // Tab thumbnail title
+        if ($params->get('thumb_title_display', 0)) {
+            $item_title = $item->title;
+            if ($params->get('thumb_title_field', '') != '0') {
+                FlexicontentFields::getFieldDisplay($item, $params->get('thumb_title_field'));
+                if ($item->fields[$params->get('thumb_title_field')]) {
+                    FlexicontentFields::getFieldDisplay($item, $params->get('thumb_title_field'), $values = null, $method = 'display');
+                    $item_title = $item->fields[$params->get('thumb_title_field')]->display;
+                }
+            }
+            $tabs_html .= '<span>' . $item_title . '</span>';
+        }
         $tabs_html .= '</div>';
         $count++;
     }
     echo '</div>';
     echo '<div class="arrows"><div class="prev ' . $params->get('arrow_prev_class') . '"></div><div class="next ' . $params->get('arrow_next_class') . '"></div></div>';
-    if ($params->get('thumb_display', 0)) {
-        echo '<div class="tabs" data-num="1" data-total="' . count($banners) . '">' . $tabs_html . '</div>';
-    }
-	echo '<div class="counter"><span class="current ' . $params->get('counter_current_class') . '">1</span> of <span class="total ' . $params->get('counter_total_class') . '">' . count($banners) . '</span></div>';
+    echo '<div class="tabs" data-num="1" data-total="' . count($banners) . '">' . $tabs_html . '</div>';
+    echo '<div class="counter"><span class="current ' . $params->get('counter_current_class') . '">1</span> of <span class="total ' . $params->get('counter_total_class') . '">' . count($banners) . '</span></div>';
     
 ?>
-<script>var myBanner<?php echo $module -> id; ?> = new jQuery('div.banner<?php echo $module -> id; ?>
-	').Banner({
-	delay: 
- <?php echo $params -> get('delay_time', 5) * 1000; ?>
-	, banner: '.banner',
-	tab: '.tab',
-	speed: 
- <?php echo $params -> get('fade_time', 400); ?>});</script>
 <?php
-echo $params -> get('modpostxt');
-echo '</div>';
-if ($params -> get('load_js', 1)) {
-	$document = JFactory::getDocument();
-	$document -> addScript(JURI::root() . 'modules/mod_lyquix_banners/assets/banner.js');
-}
+	echo $params -> get('modpostxt');
+	echo '</div>';
+	$js_vars = '{delay: ' . ($params -> get('delay_time', 5) * 1000) . ", banner: '.banner', tab: '.tab', speed: " . $params -> get('fade_time', 400) . '}';	
+	if ($params -> get('load_js', 1)) {
+		$document = JFactory::getDocument();
+		$document -> addScript(JURI::root() . 'modules/mod_lyquix_banners/assets/banner.js');
+		echo '<script>jQuery(document).ready(function(){var myBanner' . $module -> id . ' = new jQuery("div.banner' . $module -> id . '").Banner(' . $js_vars . ');});</script>';
+	}
+	else {
+		echo '<script>var myBanner' . $module -> id . ' = ' . $js_vars . ';</script>';
+	} 
 }
