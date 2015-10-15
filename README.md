@@ -1,4 +1,4 @@
-##Lyquix Banners mod_lyquix_banners##
+##Lyquix Banners##
 Joomla module used to generate a banner system using content from FLEXIcontent
 
 ###Is this for you?###
@@ -118,6 +118,7 @@ Download the latest release from https://github.com/Lyquix/mod_lyquix_banners/re
 			<div class="thumb"><img src="" alt="" /></div>
 		</div>
 	</div>
+	<div class="counter"><span class="current">1</span> of <span class="total">3</span></div>
 	<script type="text/javascript">
 		var myBanner123 = new jQuery('div.banner123').Banner({
 			delay : 10000,
@@ -127,4 +128,94 @@ Download the latest release from https://github.com/Lyquix/mod_lyquix_banners/re
 		});
 	</script>
 </div>
+```
+
+  * The whole module is wrapped in `div.module.mod_lyquix_banners.banner123` where 123 is the module ID. Notice the use of custom attributes data-num and data-total to indicate the current banner and the total banners
+  * Inside the main DIV there are 3 children DIVs:
+    * __div.banners__ : contains the actual banners
+    * __div.arrows__ : contains the previous/next arrows
+    * __div.tabs__ : contains the tabs with thumbnails
+    * __div.counter__ : contains the readable counters for current and total
+
+###Recommended CSS###
+At a minimum you should set the structure to achieve the desired effect of banners fading on the same position. Banners, arrows, tabs and counter should use position absolute.
+
+```css
+.mod_lyquix_banners {
+  position: relative;  /* banners and other elements use absolute position */
+  width: 100%;  /* responsive width */
+  height: 0;  /* responsive height is achieved using padding bottom */
+  padding-bottom: 56.25%;  /* this produces a box with 16:9 proportions */
+  overflow: hidden;  
+}
+.mod_lyquix_banners .banners {
+  position: relative;
+}
+.mod_lyquix_banners .banners .banner {
+  position: absolute;
+  width: 100%;
+}
+```
+
+Use the padding-bottom trick to make the banner image responsive too:
+```css
+.mod_lyquix_banners .banners .banner .image {
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+}
+.mod_lyquix_banners .banners .banner .image img {
+  width: 100%;
+}
+```
+
+The following provides some fancy arrows:
+```css
+.mod_lyquix_banners .arrows .prev,
+.mod_lyquix_banners .arrows .next {
+  position: absolute;
+  top: 40%;
+  padding: 0 10px;
+  font-size: 4em;
+  line-height: 0;
+  cursor: pointer;
+  color: #ffffff;
+  text-shadow: 0.05em 0.05em 0.1em #222222;
+  opacity: 0.50;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.mod_lyquix_banners .arrows .prev:hover,
+.mod_lyquix_banners .arrows .next:hover {
+  opacity: 1;
+}
+.mod_lyquix_banners .arrows .prev {
+  left: 0px;
+}
+.mod_lyquix_banners .arrows .prev:before {
+  font-family: 'IonIcons';
+  content: '\f3d2';
+}
+.mod_lyquix_banners .arrows .next {
+  right: 0px;
+}
+.mod_lyquix_banners .arrows .next:before {
+  font-family: 'IonIcons';
+  content: '\f3d3';
+}
+```
+
+Take advantage of the data-total attribute to produce styles based on the number of banners:
+```css
+.mod_lyquix_banners[data-total="1"] {
+  /* your css here for the case when there is only 1 banner */
+}
+.mod_lyquix_banners[data-total="2"] {
+  /* your css here for the case when there are 2 banners */
+}
+.mod_lyquix_banners[data-total="3"] {
+  /* your css here for the case when there are 3 banners */
+}
 ```
