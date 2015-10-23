@@ -1,14 +1,20 @@
 <?php
+/**
+ * @license GNU/GPL v2
+ * @copyright  Copyright (c) Lyquix. All rights reserved.
+ */
 defined('_JEXEC') or die('Restricted access');
 
 // display banners if any available
 if (count($banners)) {
-    // load required libraries
-    require_once(JPATH_ADMINISTRATOR . DS . 'components/com_flexicontent/defineconstants.php');
-    JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_flexicontent' . DS . 'tables');
-    require_once("components/com_flexicontent/models/" . FLEXI_ITEMVIEW . ".php");
-    require_once("components/com_flexicontent/classes/flexicontent.fields.php");
-    require_once("components/com_flexicontent/classes/flexicontent.helper.php");
+	
+	// load required FLEXIcontent libraries
+	require_once (JPATH_ADMINISTRATOR.DS.'components/com_flexicontent/defineconstants.php');
+	JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_flexicontent'.DS.'tables');
+	require_once("components/com_flexicontent/classes/flexicontent.fields.php");
+	require_once("components/com_flexicontent/classes/flexicontent.helper.php");
+	require_once("components/com_flexicontent/helpers/permission.php");
+	require_once("components/com_flexicontent/models/".FLEXI_ITEMVIEW.".php");
 	
     echo '<div class="module mod_lyquix_banners ' . $params->get('moduleclass_sfx') . ' banner' . $module->id . '">';
     echo $params->get('modpretxt');
@@ -20,9 +26,8 @@ if (count($banners)) {
 	
     foreach ($banners as $banner_item) {
         $item  = $itemmodel->getItem($banner_item, false);
-        $items = array(
-            $item
-        );
+        $items = array($item);
+		
         FlexicontentFields::getFields($items);
         echo '<div class="banner ' . $params->get('banner_class', '');
         if ($params->get('style_field') != '') {
