@@ -2,7 +2,7 @@
 <extension type="module" version="3.1" client="site" method="upgrade">
 	<name>Lyquix Banners</name>
 	<author>Lyquix</author>
-	<creationDate>15 Oct 2015</creationDate>
+	<creationDate>23 Oct 2015</creationDate>
 	<copyright>(c) Lyquix</copyright>
 	<license>GNU/GPL v2</license>
 	<authorEmail>info@lyquix.com</authorEmail>
