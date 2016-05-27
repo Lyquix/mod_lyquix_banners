@@ -14,8 +14,20 @@ if (count($banners)) {
 	require_once ("components/com_flexicontent/classes/flexicontent.fields.php");
 	require_once ("components/com_flexicontent/classes/flexicontent.helper.php");
 	require_once ("components/com_flexicontent/helpers/permission.php");
+	require_once("components/com_flexicontent/helpers/route.php");	
 	require_once ("components/com_flexicontent/models/" . FLEXI_ITEMVIEW . ".php");
-
+	$itemobjects = array();
+	//Check to see if banners are repeated on the current page so that they can be loaded more than once
+	foreach ($banners as $id) {
+		if (array_key_exists($id, $itemobjects)) {
+			continue;
+		} else {
+			$itemmodel = new FlexicontentModelItem();
+			$item = $itemmodel -> getItem($id, false);
+			$itemslist = array($item);
+			$itemobjects[$id] = $item;
+		}
+	}
 	// banner module wrapper and module pre-text
 	echo '<div class="module mod_lyquix_banners ' . $params -> get('moduleclass_sfx') . ' banner' . $module -> id . '">';
 	echo $params -> get('modpretxt');
@@ -30,10 +42,9 @@ if (count($banners)) {
 
 	foreach ($banners as $banner_item) {
 		// process item
-		$item = $itemmodel -> getItem($banner_item, false);
+		$item = $itemobjects[$banner_item];
 		$items = array($item);
 		FlexicontentFields::getFields($items);
-
 		// banner wrapper
 		echo '<div class="banner ' . $params -> get('banner_class', '');
 
@@ -119,19 +130,58 @@ if (count($banners)) {
 
 					}
 
+					$bannerSelector = 'banner-' . $module -> id;
+
 					// open image div
 					echo '<div class="image ' . $params -> get('image_class') . '">';
 
+					$video_html ='';
+					//if the item has main video set
+					if ($items[0] -> fieldvalues [$params -> get('sharedmediaid')][0]){
+					    $video_path = unserialize($items[0] -> fieldvalues [$params -> get('sharedmediaid')][0])['url'];
+					    $youtube_id = '';
+					    if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_path, $match)) {
+					            $youtube_id = $match[1];
+				        } else if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|w(?:atch)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video_path, $match)) {
+				            $youtube_id = $match[1];
+				        }
+
+					    if($youtube_id != ''){
+					        $video_html .='<div id="' . $bannerSelector . '"><a class="video-icon" data-featherlight="iframe" href="https://www.youtube.com/embed/'.$youtube_id. '?rel=0&amp;autoplay=1" title="'.$item->title.'"></a></div>';
+
+					        $video_html .="<script>
+					                    //call the jquery to initialize featherlight gallery
+					                    jQuery(document).ready(function(){
+					                        jQuery('#" . $bannerSelector ."').featherlight();
+					                    });
+					                </script>";
+					    }
+					}
+
+					echo $video_html;
+
 					// image clickable?
 					if ($params -> get('link_display', 1)) {
+						// construct the link
+
+						// if item has custom link field, use the custom field value
 						if ($params -> get('link_url') == 'custom' && $params -> get('link_field') != '') {
+							// get the item fields and its values
 							FlexicontentFields::getFieldDisplay($item, $params -> get('link_field'));
-							if (array_key_exists(0, $item -> fields[$params -> get('link_field')] -> value)) {
+
+							// check to intercept condition where the link value is in 2 different places, either in the fields, or the fieldvalues.
+							// if the value is in the fields 
+							if ($item -> fields[$params -> get('link_field')] -> value[0])
 								$link = $item -> fields[$params -> get('link_field')] -> value[0];
-							}
+							// if not, get the fieldvalues
+							else 
+								$link = $item -> fieldvalues[$item -> fields[$params -> get('link_field')] -> id][0];
+						// if the item has no custom field as links, construct the link from JRoute	
 						} else {
 							$link = JRoute::_(FlexicontentHelperRoute::getItemRoute($item -> slug, $item -> categoryslug));
 						}
+
+
 						if ($link != '')
 							echo '<a href="' . $link . '">';
 					}
