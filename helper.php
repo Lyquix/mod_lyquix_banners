@@ -25,7 +25,7 @@ class modLyquixBannersHelper {
 		$date = JFactory::getDate();
 
 		// build query
-		$query = "SELECT c.id FROM #__content AS c, #__flexicontent_cats_item_relations as fcir, #__flexicontent_items_ext as fie WHERE c.id = fcir.itemid AND c.id = fie.item_id AND c.state = 1 AND c.publish_up < UTC_TIMESTAMP() AND (c.publish_down = '0000-00-00 00:00:00' OR c.publish_down > UTC_TIMESTAMP())";
+		$query = "SELECT DISTINCT c.id FROM #__content AS c, #__flexicontent_cats_item_relations as fcir, #__flexicontent_items_ext as fie WHERE c.id = fcir.itemid AND c.id = fie.item_id AND c.state = 1 AND c.publish_up < UTC_TIMESTAMP() AND (c.publish_down = '0000-00-00 00:00:00' OR c.publish_down > UTC_TIMESTAMP())";
 		
 		// category
 		if($params->get('catid')) {
